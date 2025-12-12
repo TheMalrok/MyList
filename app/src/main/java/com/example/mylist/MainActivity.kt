@@ -21,7 +21,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -119,11 +118,10 @@ fun ListScreen(
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             personsList.forEach { person ->
-                SingleListItem1(
+                Modifier.SingleListItem1(
                     title = person.first,
-                    description = person.second,
-                    onClick = { onPersonClick(person.first, person.second) }
-                )
+                    description = person.second
+                ) { onPersonClick(person.first, person.second) }
             }
         }
     }

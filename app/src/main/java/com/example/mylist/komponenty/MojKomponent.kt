@@ -9,38 +9,48 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 
 @Composable
-fun SingleListItem1(
+fun Modifier.SingleListItem1(
     title: String = "Tytuł elementu",
     description: String = "Opis elementu z dodatkowymi informacjami",
-    modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
+    // Generuj unikalny ID bazując na tytule, aby każda osoba miała inne zdjęcie
+    val imageId = title.hashCode().toLong().coerceAtLeast(0)
+    val size = 200
     Row(
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = fillMaxWidth()
             .clickable { onClick() }
             .padding(16.dp),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Ikona po lewej
-        Icon(
-            imageVector = Icons.Default.AccountCircle,
-            contentDescription = "Ikona elementu",
-            modifier = Modifier.size(48.dp),
-            tint = MaterialTheme.colorScheme.primary
+        // Zdjęcie z picsum.photos - parametr random zapobiega cachowaniu
+        AsyncImage(
+            model = "https://picsum.photos/$size?random=$imageId",
+            contentDescription = "Avatar",
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop,
+//            placeholder = androidx.compose.ui.graphics.painter.ColorPainter(
+//                MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+//            ),
+//            error = androidx.compose.ui.graphics.painter.ColorPainter(
+//                MaterialTheme.colorScheme.error.copy(alpha = 0.3f)
+//            )
         )
 
         Spacer(modifier = Modifier.width(16.dp))
